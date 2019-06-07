@@ -41,5 +41,8 @@ public class DAOFactory {
 	public DAOStudentImpl getDAOStudent() {
 		return new DAOStudentImpl(this);
 	}
+	public DAOUserImpl getDAOUser() {
+		return new DAOUserImpl(this);
+	}
 	
 }

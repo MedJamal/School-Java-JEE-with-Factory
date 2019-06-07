@@ -27,9 +27,8 @@ public class DAOStudentImpl implements DAOStudent {
 	@Override
 	public void create(Student student) {
 		
-
-		
 		try {
+			
 			this.connection = daoFactory.getConnection();
 			
 			this.preparedStatement = connection.prepareStatement("INSERT INTO students (first_name, last_name, address, level, created_at) VALUES (?, ?, ?, ?, NOW())");

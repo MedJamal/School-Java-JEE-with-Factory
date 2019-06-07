@@ -1,6 +1,9 @@
 package controllers;
 
+import java.io.IOException;
+
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import beans.Student;
 import dao.DAOStudent;
@@ -13,7 +16,8 @@ public class StudentSignupForm {
 		this.daoStudent = daoStudent;
 	}
 	
-	public Student studentSignup(HttpServletRequest request) {
+	public Student studentSignup(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		
 		Student student = new Student();
 		
 		String firstName = getValueFromRequest(request, "firt_name");
@@ -21,27 +25,36 @@ public class StudentSignupForm {
 		String address = getValueFromRequest(request, "address");
 		String level = getValueFromRequest(request, "level");
 		
-		if (!firstName.isEmpty() && !lastName.isEmpty() && !address.isEmpty() && !level.isEmpty()) {
-			
-			student.setFirstName(firstName);
-			student.setLastName(lastName);
-			student.setAddress(address);
-			student.setLevel(level);
-			
-			try {
+		try {
+			if (!firstName.isEmpty() && !lastName.isEmpty() && !address.isEmpty() && !level.isEmpty()) {
 				
-				daoStudent.create(student);
+				student.setFirstName(firstName);
+				student.setLastName(lastName);
+				student.setAddress(address);
+				student.setLevel(level);
+
+				try {
+					
+					daoStudent.create(student);
+					
+					System.out.println("StudentSignupForm.studentSignup(): values has been added!");
+					
+				} catch (RuntimeException error) {
+					System.out.println("StudentSignupForm.studentSignup() try create: error!" + error);
+				}
 				
-				System.out.println("StudentSignupForm.studentSignup(): values has been added!");
-				
-			} catch (RuntimeException error) {
-				System.out.println("StudentSignupForm.studentSignup() try create: error!" + error);
 			}
 			
-		} else {
+		} catch (Exception error) {
+
 			System.out.println("StudentSignupForm.studentSignup(): Empty values!");
+
+			System.out.println(error);
+			
 			return null;
+			
 		}
+		
 		
 		return student;
 		
