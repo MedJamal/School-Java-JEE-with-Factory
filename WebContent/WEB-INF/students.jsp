@@ -18,7 +18,7 @@
 		  </div>
 		  
   		  <div class="form-group">
-		    <label for="address">Adresse</label>
+		    <label for="address">Address</label>
 		    <input type="text" class="form-control" name="address" placeholder="Enter address">
 		  </div>
 
@@ -48,9 +48,10 @@
 		      <th scope="col">#</th>
 		      <th scope="col">First name</th>
 		      <th scope="col">Last name</th>
-		      <th scope="col">Adresse</th>
+		      <th scope="col">Address</th>
 		      <th scope="col">Level</th>
 		      <th scope="col">Registration date</th>
+		      <th scope="col">Action</th>
 		    </tr>
 		  </thead>
 		  <tbody>
@@ -62,6 +63,9 @@
 				      <td>${student.getAddress()}</td>
 				      <td>${student.getLevel()}</td>
 				      <td>${student.getCreatedAt()}</td>
+				      <td>
+				      	<a class="btn btn-sm btn-danger" href="#">Delete</a>
+				      </td>
 				    </tr>
 		      </c:forEach>
 		  </tbody>

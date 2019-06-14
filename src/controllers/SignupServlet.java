@@ -7,9 +7,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import beans.User;
 import dao.DAOFactory;
 import dao.DAOStudent;
 import dao.DAOUser;
+import session.HandleSession;
 
 @WebServlet("/signup")
 public class SignupServlet extends HttpServlet {
@@ -27,25 +29,46 @@ public class SignupServlet extends HttpServlet {
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		System.out.println("SignupServlet class : doGET : /signup");
-		this.getServletContext().getRequestDispatcher("/WEB-INF/Auth/signup.jsp").forward(request, response);
+
+		HandleSession handleSession = new HandleSession(request);
+		
+		User user = handleSession.retriveUser();
+		
+		if (user != null) {
+			response.sendRedirect(request.getContextPath() + "/students");
+		} else {
+			System.out.println("SignupServlet class : doGET : /signup");
+			this.getServletContext().getRequestDispatcher("/WEB-INF/Auth/signup.jsp").forward(request, response);
+		}
+		
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		System.out.println("SignupServlet class : doPOST : /signup");
+
+		HandleSession handleSession = new HandleSession(request);
 		
-		AuthenticationForm signupForm = new AuthenticationForm(daoUser);
+		User user = handleSession.retriveUser();
 		
-		// Check if values are !empty
-		if (!(signupForm.signup(request, response) == null)) {
-			
-			// replace with session messages for success !!!!
-			System.out.println("SERVLET  do POST: Confirm values has been added!");
+		if (user != null) {
+			response.sendRedirect(request.getContextPath() + "/students");
 		} else {
-			System.out.println("SERVLET do POST: Empty values from request");
+			System.out.println("SignupServlet class : doPOST : /signup");
+			
+			AuthenticationForm signupForm = new AuthenticationForm(daoUser);
+			
+			// Check if values are !empty
+			if (!(signupForm.signup(request, response) == null)) {
+				
+				// replace with session messages for success !!!!
+				System.out.println("SERVLET  do POST: Confirm values has been added!");
+			} else {
+				System.out.println("SERVLET do POST: Empty values from request");
+			}
+			
+			response.sendRedirect(request.getContextPath() + "/signin");
 		}
 		
-		response.sendRedirect(request.getContextPath() + "/signin");
+		
 	}
 
 }

@@ -4,11 +4,15 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+import sun.security.jca.GetInstance.Instance;
+
 public class DAOFactory {
 	
 	private String url;
 	private String username;
 	private String password;
+	
+	private static DAOFactory instance = null;
 	
 	public DAOFactory (String url, String username, String password) {
 		this.url = url;
@@ -17,19 +21,27 @@ public class DAOFactory {
 	}
 	
 	public static DAOFactory getInstance() {
-		
-		// Load JDBC driver
-		try {
-			Class.forName("com.mysql.jdbc.Driver");
-		} catch (ClassNotFoundException e) {
-			// Later add method for error handler!
-			System.out.println("Driver not found!");
-			e.printStackTrace();
+
+		if (instance == null) {
+			
+			// Load JDBC driver
+			try {
+				Class.forName("com.mysql.jdbc.Driver");
+			} catch (ClassNotFoundException e) {
+				// Later add method for error handler!
+				System.out.println("Driver not found!");
+				e.printStackTrace();
+			}
+			
+			// Return the instance of this class: DAOFactory
+	//		DAOFactory instance;
+	//		return instance = new DAOFactory("jdbc:mysql://localhost:3306/school", "root", "");
+			
+			// singleton
+
+			return instance = new DAOFactory("jdbc:mysql://localhost:3306/school", "root", "");
 		}
-		
-		// Return the instance of this class: DAOFactory
-		DAOFactory instance;
-		return instance = new DAOFactory("jdbc:mysql://localhost:3306/school", "root", "");
+		return instance;
 		
 	}
 	

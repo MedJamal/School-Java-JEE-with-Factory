@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 import beans.User;
+import session.HandleSession;
 
 public class DAOUserImpl implements DAOUser {
 	
@@ -76,6 +77,7 @@ public class DAOUserImpl implements DAOUser {
 			System.out.println("Auth problem");
 			System.out.println(e.getMessage());
 			e.printStackTrace();
+			
 			return null;
 		}
 

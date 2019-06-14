@@ -5,6 +5,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import beans.User;
 import dao.DAOUser;
+import session.HandleSession;
 
 public class AuthenticationForm {
 	
@@ -29,6 +30,10 @@ public class AuthenticationForm {
 				if (!this.passwordConfirnation(password, passwordConfirmation)) {
 					// create session for errors
 					System.out.println("Password does't match");
+					
+					HandleSession handleSession = new HandleSession(request);
+					
+					handleSession.alertWarning("Email or password does't match");
 					return null;
 				}
 				
@@ -41,6 +46,9 @@ public class AuthenticationForm {
 					daoUser.create(user);
 					
 					System.out.println("User SignupForm.Signup(): user has been added!");
+					HandleSession handleSession = new HandleSession(request);
+					
+					handleSession.alertSuccess("Your account created successfully");
 					
 				} catch (RuntimeException error) {
 					System.out.println("User SignupForm.Signup() try create: error!" + error);
@@ -53,6 +61,10 @@ public class AuthenticationForm {
 			System.out.println("User SignupForm.Signup(): Empty values!");
 
 			System.out.println(error);
+			
+			HandleSession handleSession = new HandleSession(request);
+			
+			handleSession.alertWarning("Empty values, are faild are requered!");
 			
 			return null;
 			
@@ -74,7 +86,11 @@ public class AuthenticationForm {
 					return daoUser.signin(email, password);
 					
 				} catch (RuntimeException error) {
-					System.out.println("AuthenticationForm class : signin");
+					System.out.println("AuthenticationForm class : Error signin");
+					
+					HandleSession handleSession = new HandleSession(request);
+					handleSession.alertDanger("Error 3306");
+					
 					return null;
 				}
 				
@@ -84,6 +100,9 @@ public class AuthenticationForm {
 			System.out.println("AuthenticationForm class : signin Error");
 			System.out.println(error.getMessage());
 			System.out.println(error);
+			HandleSession handleSession = new HandleSession(request);
+			
+			handleSession.alertDanger("Error");
 			return null;
 		}
 		return null;
