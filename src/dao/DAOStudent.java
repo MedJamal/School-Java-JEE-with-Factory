@@ -15,4 +15,8 @@ public interface DAOStudent {
 	// Get all Students as array list 
 	public List<Student> getAll();
 
+	public void edit(Student student);
+
+	public boolean delete(String id);
+
 }

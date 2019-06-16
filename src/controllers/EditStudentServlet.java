@@ -7,18 +7,19 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import beans.Student;
 import beans.User;
 import dao.DAOFactory;
 import dao.DAOStudent;
 import session.HandleSession;
 
-@WebServlet("/students")
-public class StudentServlet extends HttpServlet {
+@WebServlet("/edit-student")
+public class EditStudentServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
 	private DAOStudent daoStudent;
-	
-    public StudentServlet() {
+
+    public EditStudentServlet() {
         super();
     }
     
@@ -28,7 +29,6 @@ public class StudentServlet extends HttpServlet {
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
 		HandleSession handleSession = new HandleSession(request);
 		
 		User user = handleSession.retriveUser();
@@ -37,18 +37,22 @@ public class StudentServlet extends HttpServlet {
 			response.sendRedirect(request.getContextPath() + "/signin");
 		} else {
 			
-			System.out.println("GET RUN: /students");
-
-			request.setAttribute("students", daoStudent.getAll());
-			
-			this.getServletContext().getRequestDispatcher("/WEB-INF/students.jsp").forward(request, response);
+			if (request.getParameter("id") == null) {
+				response.sendRedirect(request.getHeader("referer"));
+			} else {
+				Student student = this.daoStudent.get(Integer.parseInt(request.getParameter("id")));
+				
+				request.setAttribute("student", student);
+				
+				this.getServletContext().getRequestDispatcher("/WEB-INF/student/edit.jsp").forward(request, response);
+			}
 			
 		}
-
+		
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+		
 		HandleSession handleSession = new HandleSession(request);
 		
 		User user = handleSession.retriveUser();
@@ -56,28 +60,25 @@ public class StudentServlet extends HttpServlet {
 		if (user == null) {
 			response.sendRedirect(request.getContextPath() + "/signin");
 		} else {
-			System.out.println("POST RUN: /students");
+			System.out.println("POST RUN: /Editstudents");
 			
-			StudentFormHandler studentSignupForm = new StudentFormHandler(daoStudent);
+			StudentFormHandler studentForm = new StudentFormHandler(daoStudent);
 			
 			// Check if values are !empty
-			if (!(studentSignupForm.studentSignup(request, response) == null)) {
+			if (!(studentForm.studentEdit(request, response) == null)) {
 				
 				// replace with session messages for success !!!!
-				System.out.println("SERVLET do POST: Confirm values has been added!");
+				System.out.println("SERVLET do POST: Confirm values has been edited!");
 				
-//				request.setAttribute("alertSuccess", "Values has been added successfully! from servlet request attribute");
-				
-				handleSession.alertSuccess("Student has been added successfully!");
+				handleSession.alertSuccess("Student has been edited successfully!");
 				
 			} else {
 				System.out.println("SERVLET do POST: Empty values from request");
 			}
 			
-			response.sendRedirect(request.getContextPath() + "/students");
+			response.sendRedirect(request.getHeader("referer"));
 		}
 		
 	}
 
 }
-

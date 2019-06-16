@@ -64,7 +64,16 @@
 				      <td>${student.getLevel()}</td>
 				      <td>${student.getCreatedAt()}</td>
 				      <td>
-				      	<a class="btn btn-sm btn-danger" href="#">Delete</a>
+				      <div class="row">
+				      	<div class="">
+				      		<a class="btn btn-sm btn-danger " href="edit-student?id=${ student.getId() }">Edit</a>
+			      		</div>
+						<form action="student-delete" method="post">
+				      		<input type="hidden" name="id" value="${ student.getId() }">
+					      	<button class="btn btn-sm btn-secondary">Delete</button>
+				      	</form>
+				      </div>
+
 				      </td>
 				    </tr>
 		      </c:forEach>

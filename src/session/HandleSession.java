@@ -19,7 +19,7 @@ public class HandleSession {
 			
 			this.session.setAttribute("user", user);
 			
-//			//days
+//			// 7 days
 //			this.session.setMaxInactiveInterval(7 * 24 * 60 * 60);
 			
 			// 5 min (for testing)
@@ -45,7 +45,7 @@ public class HandleSession {
 			
 		} catch (Exception error) {
 			
-			System.out.println("Session: retrive user error");
+			System.out.println("Session: retrive user : empty");
 			System.out.println(error.getMessage());
 			System.out.println(error);
 			

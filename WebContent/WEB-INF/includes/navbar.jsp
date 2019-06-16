@@ -14,10 +14,14 @@
       <li class="nav-item active">
         <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
       </li>
-      <li class="nav-item">
-        <a class="nav-link" href="${ pageContext.request.contextPath }/students">Students</a>
-      </li>
-
+      <c:choose>
+      	<c:when test="${ sessionScope.user != null }">
+	      <li class="nav-item">
+	        <a class="nav-link" href="${ pageContext.request.contextPath }/students">Students</a>
+	      </li>
+        </c:when>
+      </c:choose>
+      
     </ul>
     <c:choose>
 	    <c:when test='${sessionScope.user == null}'>

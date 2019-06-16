@@ -9,7 +9,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import beans.User;
 import dao.DAOFactory;
-import dao.DAOStudent;
 import dao.DAOUser;
 import session.HandleSession;
 
