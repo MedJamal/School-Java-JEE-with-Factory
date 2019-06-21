@@ -14,6 +14,7 @@ public class PasswordHashing {
 	}
 
 	public String getGeneratedPassword() {
+		
 	    try {
 	    	
 	        // Create MessageDigest instance for MD5
@@ -41,7 +42,5 @@ public class PasswordHashing {
 	        return null;
 	    }
 	}
-
-    
 
 }
