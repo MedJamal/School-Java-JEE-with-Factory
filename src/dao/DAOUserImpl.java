@@ -6,6 +6,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import javax.servlet.http.HttpServletRequest;
+
 import beans.User;
 import session.HandleSession;
 
@@ -65,7 +67,13 @@ public class DAOUserImpl implements DAOUser {
 				 user.setName(resultSet.getString(2));
 				 user.setEmail(resultSet.getString(3));
 			} else {
-				System.out.println("email or password are not correct");
+				
+				System.out.println("Email or password are not correct");
+				
+				HttpServletRequest request = null ;
+				HandleSession handleSession = new HandleSession(request);
+				handleSession.alertDanger("Email or password are not correct");
+				
 				return null;
 			}
 			
@@ -74,7 +82,12 @@ public class DAOUserImpl implements DAOUser {
 			return user;
 			
 		} catch (SQLException e) {
-			System.out.println("Auth problem");
+			System.out.println("Error: Auth problem");
+			
+			HttpServletRequest request = null ;
+			HandleSession handleSession = new HandleSession(request);
+			handleSession.alertDanger("Error: Authenctication problem");
+			
 			System.out.println(e.getMessage());
 			e.printStackTrace();
 			

@@ -13,7 +13,7 @@
 
 <c:choose>
 	<c:when test='${sessionScope.alertWarning != null}'>
-		<div class="alert alert-success" role="alert">
+		<div class="alert alert-warning" role="alert">
 			${sessionScope.alertWarning}
 		</div>
 		<% session.removeAttribute("alertWarning"); %>
@@ -22,7 +22,7 @@
 
 <c:choose>
 	<c:when test='${sessionScope.alertDanger != null}'>
-		<div class="alert alert-success" role="alert">
+		<div class="alert alert-danger" role="alert">
 			${sessionScope.alertDanger}
 		</div>
 		<% session.removeAttribute("alertDanger"); %>

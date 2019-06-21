@@ -37,9 +37,11 @@ public class AuthenticationForm {
 					return null;
 				}
 				
+				PasswordHashing passwordHashing = new PasswordHashing(password);
+				
 				user.setName(name);
 				user.setEmail(email);
-				user.setPassword(password);
+				user.setPassword(passwordHashing.getGeneratedPassword());
 				
 				try {
 					
@@ -82,14 +84,15 @@ public class AuthenticationForm {
 			if (!email.isEmpty() && !password.isEmpty()) {
 				
 				try {
+					PasswordHashing passwordHashing = new PasswordHashing(password);
 					
-					return daoUser.signin(email, password);
+					return daoUser.signin(email, passwordHashing.getGeneratedPassword());
 					
 				} catch (RuntimeException error) {
 					System.out.println("AuthenticationForm class : Error signin");
 					
 					HandleSession handleSession = new HandleSession(request);
-					handleSession.alertDanger("Error 3306");
+					handleSession.alertDanger("Email or password are not correct");
 					
 					return null;
 				}
@@ -100,9 +103,11 @@ public class AuthenticationForm {
 			System.out.println("AuthenticationForm class : signin Error");
 			System.out.println(error.getMessage());
 			System.out.println(error);
+			
 			HandleSession handleSession = new HandleSession(request);
 			
 			handleSession.alertDanger("Error");
+			
 			return null;
 		}
 		return null;

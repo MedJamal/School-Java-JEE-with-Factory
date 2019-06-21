@@ -4,8 +4,6 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-import sun.security.jca.GetInstance.Instance;
-
 public class DAOFactory {
 	
 	private String url;
